@@ -1,4 +1,6 @@
-public class Tablero{
-    public int tamaño;
+public interface Tablero {
+
+    public void MostrarTablero();
+    public void generarisla();
     
 }

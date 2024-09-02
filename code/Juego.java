@@ -11,6 +11,7 @@ public class Juego {
         this.cantIntentos = i;
         this.cantBarcos = b;
     }
+    
 
 
 }
