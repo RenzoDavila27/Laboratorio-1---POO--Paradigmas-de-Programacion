@@ -2,7 +2,6 @@
 import java.util.Scanner;
 
 public class HUB {
-
     public static void main(String[] args) {
 
         int option;
@@ -14,12 +13,14 @@ public class HUB {
 
         switch (option) {
             case 1:
+                scanner.close();
                 System.out.println("Inicia el juego");
                 break;
             case 2:
+
                 leerReglas();
                 System.out.println("¿Quieres comenzar a jugar?");
-                String option2 = scanner2.nextLine();
+                String option2 = scanner.nextLine();
                 if (option2.toLowerCase().equals("y")) {
                     System.out.println("Inicia el juego");
                 } else {
@@ -28,7 +29,6 @@ public class HUB {
             case 3:
                 System.exit(0);
         }
-
         while (option != 1)
             ;
         scanner.close();
