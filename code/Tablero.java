@@ -1,6 +1,12 @@
-public interface Tablero {
+public abstract class Tablero {
 
-    public void MostrarTablero();
-    public void generarisla();
-    
+    int tamaño;
+
+    public Tablero(int t){
+        this.tamaño = t;
+    }
+
+    public abstract void MostrarTablero();
+
+
 }

@@ -4,10 +4,11 @@ public class Jugador {
     public TableroA attackBoard;
     public TableroD deffenseBoard;
     
-    public Jugador(String n){
+    public Jugador(String n, int t, int b){
         this.nombre = n;
-        this.attackBoard = new TableroA();
-        this.deffenseBoard = new TableroD();
+        this.cantBarcos = b;
+        this.attackBoard = new TableroA(t);
+        this.deffenseBoard = new TableroD(t);
     }
 
     

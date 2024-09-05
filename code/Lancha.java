@@ -1,4 +1,4 @@
-public class Lancha extends ColocablesEnMapa implements Barco{
+public class Lancha extends Fichas implements Barco{
 
     public Lancha(Coordenadas position){
         super(position, 'L');

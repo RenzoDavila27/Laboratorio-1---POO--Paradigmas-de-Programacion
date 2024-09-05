@@ -1,6 +1,7 @@
 public class TableroA implements Tablero{
     int tamaño;
     char[][] board;
+    
     public TableroA(int t){
         this.tamaño = t;
         this.board = new char[t][t];
