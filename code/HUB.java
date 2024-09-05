@@ -12,7 +12,7 @@ public class HUB {
 
         int option;
         Scanner scanner = new Scanner(System.in);
-        Scanner scanner2 = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         System.out.println(
                 "¡Bienvenidos a Batalla Naval!\nSeleccione una opcion:\n1. Empezar a jugar\n2. Leer reglas\n3. Salir del juego");
         option = scanner.nextInt();
