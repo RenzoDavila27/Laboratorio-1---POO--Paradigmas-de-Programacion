@@ -6,7 +6,7 @@ public abstract class Fichas{
     public int tamaño;
 
     
-    public Fichas(Coordenadas position, char id){
+    public Fichas(int t, char id){
         this.identificador =  id;
     }
 }

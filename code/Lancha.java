@@ -1,13 +1,13 @@
 public class Lancha extends Fichas implements Barco{
 
-    public Lancha(Coordenadas position){
-        super(position, 'L');
+    public Lancha(){
+        super(1, 'L');
 
     }
 
     public void colocarBarco(Jugador j, Coordenadas position){
-        if (Jugador.deffenseBoard[position.x][position.y].identificador == 'M'){
-            Jugador.deffenseBoard[position.x][position.y] = new Lancha(position);
+        if (j.deffenseBoard[position.x][position.y].identificador == 'M'){
+            j.deffenseBoard[position.x][position.y] = new Lancha(position);
         }
     }
 }

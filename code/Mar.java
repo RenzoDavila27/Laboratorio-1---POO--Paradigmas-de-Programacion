@@ -1,8 +1,7 @@
 public class Mar extends Fichas{
     
     public Mar(){
-        super()
-        this.identificador = 'M'
+        super(1,'M');
     }
 
 }

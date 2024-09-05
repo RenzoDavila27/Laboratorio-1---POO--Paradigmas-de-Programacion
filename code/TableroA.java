@@ -1,9 +1,9 @@
-public class TableroA implements Tablero{
+public class TableroA extends Tablero{
     int tamaño;
     char[][] board;
-    
+
     public TableroA(int t){
-        this.tamaño = t;
+        super(t);
         this.board = new char[t][t];
         for (int i=0;i<t;i++){
             for (int j=0;j<t;j++){
@@ -11,5 +11,22 @@ public class TableroA implements Tablero{
             }
         }
     }
+
+    public void MostrarTablero(){
+
+        System.out.print("   ");
+        for (int p = 0; p <= tamaño; p++){
+            System.out.print(p + " ");
+        }
+
+        for (int i=0;i<tamaño;i++){
+            System.out.print("1 [");
+            for (int j=0;j<tamaño;j++){
+                System.out.print(" " + board[i][j] + " ");
+            }
+            System.out.println("]");
+        }
     
+    }
+
 }

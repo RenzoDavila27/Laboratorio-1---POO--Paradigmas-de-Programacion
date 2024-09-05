@@ -1,9 +1,8 @@
 import java.util.Scanner;
-import java.util.Arrays;
 
 public class Juego {
 
-    private static void main(String[] args) {
+    public static void main(String[] args){
         int metodoDeJuego;
         int tamaño = 0, cantIntentos = 0, cantBarcos = 0;
         Jugador[] players = new Jugador[2];

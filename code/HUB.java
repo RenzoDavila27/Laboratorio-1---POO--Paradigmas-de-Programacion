@@ -12,7 +12,6 @@ public class HUB {
 
         int option;
         Scanner scanner = new Scanner(System.in);
-        Scanner scanner = new Scanner(System.in);
         System.out.println(
                 "¡Bienvenidos a Batalla Naval!\nSeleccione una opcion:\n1. Empezar a jugar\n2. Leer reglas\n3. Salir del juego");
         option = scanner.nextInt();
@@ -23,9 +22,10 @@ public class HUB {
                 return;
             case 2:
                 leerReglas();
-                System.out.println("¿Quieres comenzar a jugar?");
-                String option2 = scanner.nextLine();
+                System.out.println("¿Quieres comenzar a jugar? (y/n)");
+                String option2 = scanner.next();
                 if (option2.toLowerCase().equals("y")) {
+                    System.out.println("Inicia el juego");
                     return;
                 } else {
                     System.exit(0);
@@ -33,7 +33,7 @@ public class HUB {
             case 3:
                 System.exit(0);
         }
-
+        scanner.close();
         return;
     }
 
