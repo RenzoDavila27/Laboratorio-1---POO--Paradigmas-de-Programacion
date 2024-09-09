@@ -6,6 +6,9 @@ public abstract class Tablero {
         this.tamaño = t;
     }
 
+    public int getTamaño(){
+        return this.tamaño;
+    }
     public abstract void MostrarTablero();
 
 

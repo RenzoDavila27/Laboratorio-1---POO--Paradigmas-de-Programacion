@@ -43,9 +43,12 @@ public class Juego {
         players[0] = new Jugador(name1, tamaño, cantBarcos);
         players[1] = new Jugador(name2, tamaño, cantBarcos);
 
+        String[] barcos = seleccionDeBarcos(cantBarcos);
+        posicionarBarcos(barcos, tamaño);
+
     }
 
-    public void seleccionDeBarcos(int cantShips) {
+    public static String[] seleccionDeBarcos(int cantShips) {
         Scanner scanner = new Scanner(System.in);
         String[] barcos = new String[cantShips];
         int option = 0;
@@ -74,13 +77,37 @@ public class Juego {
             } while (option< 1 || option > 5);     
         }
         scanner.close();
-
-        posicionarBarcos(barcos);
+        return barcos;
     }
 
-    public void posicionarBarcos(String[] barcos) {
-        Scanner scanner = new Scanner(System.in);
+    public static void posicionarBarcos(String[] barcos,int tamaño, Jugador[] players) {
         Coordenadas position;
+        Scanner scanner = new Scanner(System.in);
+        int equis, ye;
+
+        for (int i=0; i<=1; i++){
+
+            Jugador j = players[i];
+
+            for (String barco: barcos){
+
+                System.out.println("Ingrese la posicion x de: " + barco);
+                do {
+                    equis = scanner.nextInt();
+                } while (equis < tamaño || equis > 0);
+    
+                System.out.println("Ingrese la posicion y de: " + barco);
+                do {
+                    ye = scanner.nextInt();
+                } while (ye < tamaño || ye > 0);
+
+                if (verificarMapa());
+
+            }
+
+        }
+
+
     }
 
 }
