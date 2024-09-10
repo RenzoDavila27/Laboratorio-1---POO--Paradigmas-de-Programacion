@@ -1,4 +1,4 @@
-public class Portaaviones extends Fichas implements Colocable {
+public class Portaaviones extends Fichas {
     
     public Portaaviones(){
         super(5, 'P');

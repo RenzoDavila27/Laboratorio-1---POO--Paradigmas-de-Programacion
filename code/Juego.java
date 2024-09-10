@@ -40,11 +40,18 @@ public class Juego {
         } while (metodoDeJuego > 3 || metodoDeJuego < 1);
 
         scanner.close();
-        players[0] = new Jugador(name1, tamaño, cantBarcos);
-        players[1] = new Jugador(name2, tamaño, cantBarcos);
+        Jugador jug1 = new Jugador(name1, tamaño, cantBarcos);
+        Jugador jug2 = new Jugador(name2, tamaño, cantBarcos);
 
         String[] barcos = seleccionDeBarcos(cantBarcos);
-        posicionarBarcos(barcos, tamaño);
+        posicionarBarcos(barcos, tamaño, jug1, jug2);
+
+        Jugador jActual = jug1;
+
+        while verificarGanador(jActual){
+
+        }
+
 
     }
 
@@ -81,20 +88,18 @@ public class Juego {
         return barcos;
     }
 
-    public static void posicionarBarcos(String[] barcos,int tamaño, Jugador[] players) {
+    public static void posicionarBarcos(String[] barcos,int tamaño, Jugador j, Jugador j2) {
         Coordenadas positionTry;
         Scanner scanner = new Scanner(System.in);
         int equis, ye, o = 0;
-
+        Jugador jActual = j;
         for (int i=0; i<=1; i++){
-
-            Jugador j = players[i];
 
             for (String barco: barcos){
 
                 do{
-
-                    j.deffenseBoard.MostrarTablero();
+                    System.out.println("-------------------");
+                    jActual.deffenseBoard.MostrarTablero();
 
                     System.out.println("-----\nIngrese la posicion x de: " + barco);
                     do {
@@ -139,8 +144,17 @@ public class Juego {
                     
                 } while (o == 0);
             }
+
+            jActual = j2;
         }
 
+    }
+
+    public boolean verificarGanador(Jugador j) {
+        if (j.getCantBarcos() == 0){
+            return false;
+        } 
+        return true;
     }
 
     public static int verificarMapa(Coordenadas position, Jugador jug1, Fichas pieza) {

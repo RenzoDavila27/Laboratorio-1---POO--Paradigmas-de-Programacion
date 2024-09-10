@@ -1,6 +1,6 @@
 public class TableroA extends Tablero{
-    int tamaño;
-    char[][] board;
+    private int tamaño;
+    private char[][] board;
 
     public TableroA(int t){
         super(t);
@@ -12,6 +12,9 @@ public class TableroA extends Tablero{
         }
     }
 
+    public char[][] getBoard() {
+        return this.board;
+    }
     public void MostrarTablero(){
 
         System.out.print("   ");

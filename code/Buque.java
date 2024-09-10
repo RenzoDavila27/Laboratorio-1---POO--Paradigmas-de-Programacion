@@ -1,4 +1,4 @@
-public class Buque extends Fichas implements Colocable{
+public class Buque extends Fichas{
 
     public Buque(){
         super(4, 'B');

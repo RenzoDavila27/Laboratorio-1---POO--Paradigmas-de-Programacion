@@ -1,4 +1,4 @@
-public class Crucero extends Fichas implements Colocable{
+public class Crucero extends Fichas{
     
     public Crucero(){
         super(3, 'S');

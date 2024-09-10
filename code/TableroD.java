@@ -6,9 +6,15 @@ public class TableroD extends Tablero{
         this.board = new Fichas[t][t];
         for (int i=0;i<t;i++){
             for (int j=0;j<t;j++){
-                this.board[i][j] = new Mar();
+                Mar m = new Mar();
+                Coordenadas a = new Coordenadas(i, j);
+                m.colocar(this.board, a);
             }
         }
+    }
+
+    public Fichas[][] getBoard() {
+        return this.board;
     }
 
     public void MostrarTablero(){
@@ -19,11 +25,11 @@ public class TableroD extends Tablero{
         }
 
         for (int i=0;i<tamaño;i++){
-            System.out.print("1 [");
+            System.out.print(i + " [");
             for (int j=0;j<tamaño;j++){
-                System.out.print(" " + board[i][j].identificador + " ");
+                System.out.print(" " + board[i][j].getId() + " ");
             }
-            System.out.println("]");
+            System.out.println(" ]");
         }
     }
 }

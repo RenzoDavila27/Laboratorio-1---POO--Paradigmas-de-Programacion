@@ -1,6 +1,6 @@
 public class Jugador {
-    public String nombre;
-    public int cantBarcos;
+    private String nombre;
+    private int cantBarcos;
     public TableroA attackBoard;
     public TableroD deffenseBoard;
     
@@ -11,6 +11,11 @@ public class Jugador {
         this.deffenseBoard = new TableroD(t);
     }
 
-    
+    public String getName() {
+        return this.nombre;
+    }
 
+    public int getCantBarcos() {
+        return this.cantBarcos;
+    }
 }

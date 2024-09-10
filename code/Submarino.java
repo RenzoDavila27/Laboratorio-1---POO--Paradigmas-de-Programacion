@@ -1,4 +1,4 @@
-public class Submarino extends Fichas implements Colocable{
+public class Submarino extends Fichas{
     
     public Submarino(){
         super(3, 'S');
