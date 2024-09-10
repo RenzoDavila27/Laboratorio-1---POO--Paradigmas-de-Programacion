@@ -1,14 +1,14 @@
 
-public class Lancha extends Fichas implements Barco{
+public class Lancha extends Fichas implements Colocable{
 
     public Lancha(){
         super(1, 'L');
 
     }
     
-    public void colocarBarco(Jugador j, Coordenadas position, int option){
+    public void colocar(Jugador j, Coordenadas position, int option){
         
-        j.deffenseBoard.board[position.x][position.y] = this;
-
+        j.deffenseBoard.board[position.getX()][position.getY()] = this;
+        
     }
 }

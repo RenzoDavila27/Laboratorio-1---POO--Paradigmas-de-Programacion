@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 
-public abstract class Fichas{
+public abstract class Fichas implements Colocable{
     
     private char identificador;
     private int tamaño;

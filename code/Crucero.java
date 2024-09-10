@@ -1,10 +1,10 @@
-public class Crucero extends Fichas implements Barco{
+public class Crucero extends Fichas implements Colocable{
     
     public Crucero(){
         super(3, 'S');
     }
 
-    public void colocarBarco(Jugador j, Coordenadas position, int option){
+    public void colocar(Jugador j, Coordenadas position, int option){
         
         int ye = position.getY();
         int equis = position.getX();

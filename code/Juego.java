@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Juego {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         int metodoDeJuego;
         int tamaño = 0, cantIntentos = 0, cantBarcos = 0;
         Jugador[] players = new Jugador[2];
@@ -52,10 +52,11 @@ public class Juego {
         Scanner scanner = new Scanner(System.in);
         String[] barcos = new String[cantShips];
         int option = 0;
-        for (int i=0;i<cantShips;i++){
+        for (int i = 0; i < cantShips; i++) {
 
             do {
-                System.out.println("Ingrese el barco Nro " + i + " que se va a jugar\n1.Lancha (Tamaño=1)\n2.Crucero (Tamaño 2)\n3.Submarino (Tamaño 3)\n4.Buque (Tamaño 4)\n5.Portaaviones (Tamaño 5)");
+                System.out.println("Ingrese el barco Nro " + i
+                        + " que se va a jugar\n1.Lancha (Tamaño=1)\n2.Crucero (Tamaño 2)\n3.Submarino (Tamaño 3)\n4.Buque (Tamaño 4)\n5.Portaaviones (Tamaño 5)");
                 option = scanner.nextInt();
                 switch (option) {
                     case 1:
@@ -74,16 +75,16 @@ public class Juego {
                         barcos[i] = "Portaaviones";
                         break;
                 }
-            } while (option< 1 || option > 5);     
+            } while (option < 1 || option > 5);
         }
         scanner.close();
         return barcos;
     }
 
     public static void posicionarBarcos(String[] barcos,int tamaño, Jugador[] players) {
-        Coordenadas position;
+        Coordenadas positionTry;
         Scanner scanner = new Scanner(System.in);
-        int equis, ye;
+        int equis, ye, o = 0;
 
         for (int i=0; i<=1; i++){
 
@@ -91,23 +92,150 @@ public class Juego {
 
             for (String barco: barcos){
 
-                System.out.println("Ingrese la posicion x de: " + barco);
-                do {
-                    equis = scanner.nextInt();
-                } while (equis < tamaño || equis > 0);
+                do{
+
+                    j.deffenseBoard.MostrarTablero();
+
+                    System.out.println("-----\nIngrese la posicion x de: " + barco);
+                    do {
+                        equis = scanner.nextInt();
+                    } while (equis < tamaño || equis > 0);
     
-                System.out.println("Ingrese la posicion y de: " + barco);
-                do {
-                    ye = scanner.nextInt();
-                } while (ye < tamaño || ye > 0);
+                    System.out.println("-----\nIngrese la posicion y de: " + barco);
+                    do {
+                        ye = scanner.nextInt();
+                    } while (ye < tamaño || ye > 0);
 
-                if (verificarMapa());
+                    positionTry = new Coordenadas(equis,ye);
+                    Fichas ficha = new Mar();
+                    switch (barco) {
+                        
+                        case "Lancha":
+                            ficha = new Lancha();
+                            break;
+                        case "Crucero":
+                            ficha = new Crucero();
+                            break;
+                        case "Submarino":
+                            ficha = new Submarino();
+                            break;
+                        case "Buque":
+                            ficha = new Buque();
+                            break;
+                        case "Portaaviones":
+                            ficha = new Portaaviones();
+                    }
 
+                    
+                    o = verificarMapa(positionTry, j, ficha);
+                    
+                    if (o == 0){
+                        System.out.println("-----\nPosicion no valida\n-----");
+                        continue;
+                    } else{
+                        System.out.println("-----\nEl barco se coloco correctamente\n-----");
+                        ficha.colocar(j, positionTry, o);
+                    }
+                    
+                } while (o == 0);
             }
-
         }
-
 
     }
 
+    public static int verificarMapa(Coordenadas position, Jugador jug1, Fichas pieza) {
+        int option = 0;
+        int t = jug1.deffenseBoard.getTamaño();
+        int h = pieza.getTamaño(), equis = position.getX(), ye = position.getY();
+        if (pieza.getId() == 'M') {
+            for (int i = equis - 1; i <= equis + 1; i++) {
+                for (int j = ye - 1; i <= ye + 1; j++) {
+                    if (i < t && j < t && i > 0 && j > 0) {
+                        if (jug1.deffenseBoard.board[i][j].getId() != 'M') {
+                            return 0;
+                        }
+                    }
+                }
+
+            }
+        } else {
+            Scanner scanner = new Scanner(System.in);
+
+            do {
+                System.out.println(
+                        "Opciones para colacar su barco: \n1. Vertical Hacia Arriba\n2. Vertical Hacia abajo\n3. Hacia la derecha\n4. Hacia la izquierda");
+                option = scanner.nextInt();
+                switch (option) {
+                    case 1:
+                        if (equis - h < 0) {
+                            return 0;
+                        } else {
+                            for (int i = equis - h; i <= equis + 1; i++) {
+                                for (int j = ye - 1; j <= ye + 1; j++) {
+                                    if (i < t && j < t && i > 0 && j > 0) {
+                                        if (jug1.deffenseBoard.board[i][j].getId() != 'M') {
+                                            return 0;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    case 2:
+                        if (equis + h > t) {
+                            return 0;
+                        } else {
+                            for (int i = equis - 1; i <= equis + h; i++) {
+                                for (int j = ye - 1; j <= ye + 1; j++) {
+                                    if (i < t && j < t && i > 0 && j > 0) {
+                                        if (jug1.deffenseBoard.board[i][j].getId() != 'M') {
+                                            return 0;
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+
+                        break;
+                    case 3:
+                        if (ye + h > t) {
+                            return 0;
+                        } else {
+                            for (int i = equis - 1; i <= equis + 1; i++) {
+                                for (int j = ye - 1; j <= ye + h; j++) {
+                                    if (i < t && j < t && i > 0 && j > 0) {
+                                        if (jug1.deffenseBoard.board[i][j].getId() != 'M') {
+                                            return 0;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    case 4:
+                        if (ye - h < 0) {
+                            return 0;
+                        } else {
+                            for (int i = equis - 1; i <= equis + 1; i++) {
+                                for (int j = ye - h; i <= ye + 1; j++) {
+                                    if (i < t && j < t && i > 0 && j > 0) {
+                                        if (jug1.deffenseBoard.board[i][j].getId() != 'M') {
+                                            return 0;
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                        break;
+                    default:
+                        System.out.println("Opcion no valida");
+                        break;
+                }
+            } while (option < 1 || option > 4);
+        }
+        return option;
+
+    }
 }
