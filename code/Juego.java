@@ -1,13 +1,14 @@
 import java.util.Scanner;
+import java.util.Random;
+
 
 public class Juego {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         int metodoDeJuego;
-        int tamaño = 0, cantIntentos = 0, cantBarcos = 0;
-        Jugador[] players = new Jugador[2];
+        int tamaño = 0, cantIntentos = 0, cantBarcos = 0, cantIslas = 0, option = 0, numTurno = 1;
         HUB start = new HUB();
-
+        boolean seguirJugando = true;
         start.ingresarHub();
 
         Scanner scanner = new Scanner(System.in);
@@ -17,7 +18,7 @@ public class Juego {
         String name2 = scanner.nextLine();
         System.out.println("Hola jugador " + name1 + " y " + name2);
         System.out.println(
-                "Opciones de tablero:\n1. 10x10 - 5 barcos - 70 intentos\n2. 7x7 - 4 barcos - 32 intentos\n3. 5x5 - 3 barcos - 18 ");
+                "Opciones de tablero:\n1. 10x10 - 5 barcos - 4 islas - 70 intentos\n2. 7x7 - 4 barcos - 3 islas - 32 intentos\n3. 5x5 - 2 barcos - 1 isla - 18 intentos");
         do {
             metodoDeJuego = scanner.nextInt();
             switch (metodoDeJuego) {
@@ -25,45 +26,222 @@ public class Juego {
                     tamaño = 10;
                     cantBarcos = 5;
                     cantIntentos = 140; // 70 para cada jugador
+                    cantIslas = 4;
                     break;
                 case 2:
                     tamaño = 7;
                     cantBarcos = 4;
                     cantIntentos = 64; // 32 para cada jugador
+                    cantIslas = 3;
                     break;
                 case 3:
                     tamaño = 5;
-                    cantBarcos = 3;
+                    cantBarcos = 2;
                     cantIntentos = 36; // 18 para cada jugador
+                    cantIslas = 1;
                     break;
+                default:
+                    System.out.println("Opcion invalida");
             }
         } while (metodoDeJuego > 3 || metodoDeJuego < 1);
 
-        scanner.close();
         Jugador jug1 = new Jugador(name1, tamaño, cantBarcos);
         Jugador jug2 = new Jugador(name2, tamaño, cantBarcos);
 
+        generarIslas(jug1, jug2, cantIslas);
         String[] barcos = seleccionDeBarcos(cantBarcos);
-        posicionarBarcos(barcos, tamaño, jug1, jug2);
+        jug1.inicializarBarcos(barcos);
+        jug2.inicializarBarcos(barcos);
+        System.out.println(barcos[0] + barcos[1]);
+        posicionarBarcos(barcos, tamaño-1, jug1, jug2);
 
-        Jugador jActual = jug1;
+        Jugador jActual = jug1, jEnemigo = jug2;
+        System.out.println("----------\n¡Comienza el juego!");
 
-        while verificarGanador(jActual){
+        while (numTurno <= cantIntentos && seguirJugando){
+            
+            if (jug1.getCantBarcos() == 0 && jug2.getAciertos() == jug1.getAciertos()-1){
+                System.out.println("Ultima oportunidad de " + jug1.getName());
+                seguirJugando = false;
+            }else if (jug2.getCantBarcos() == 0 && jug1.getAciertos() == jug2.getAciertos()-1){
+                System.out.println("Ultima oportunidad de " + jug2.getName());
+                seguirJugando = false;
+            }
+
+
+
+            System.out.println("----------\nTurno de " + jActual.getName());
+            System.out.println("Ingrese la accion a realizar\n1. Quiero ver mi tablero y barcos\n2. Quiero atacar");
+
+            do{
+                option = scanner.nextInt();
+                switch (option) {
+                    case 1:
+                    System.out.println("Mi tablero");
+                        jActual.deffenseBoard.mostrarTablero();
+                        System.out.println("Barcos restantes: ");
+                        jActual.mostrarBarcosRestantes();
+                        System.out.println("Barcos perdidos: ");
+                        jActual.mostrarBarcosEliminados();
+                        System.out.println("Atacaras en 5 segundos ");
+                        Thread.sleep(5000);
+                        break;
+                    
+                    case 2:
+                        break;
+                    default:
+                        System.out.println("Opcion invalida");
+                        break;
+                }
+            } while (option > 2 || option < 1);
+
+            System.out.println("-----\n¡Es hora de atacar!");
+            
+            numTurno++;
+
+            if (!ataque(jActual, jEnemigo)){
+                Jugador transicion = jActual;
+                jActual = jEnemigo;
+                jEnemigo = transicion;
+            }else{
+                System.out.println("¡Tiras nuevamente!");
+            }
 
         }
 
+        if (numTurno == cantIntentos){
+            if (jug1.getAciertos() > jug2.getAciertos()){
+                System.out.println("El jugador " + jug1.getName() + " ha ganado, ¡Felicidades! ");
+                System.out.println("Tablero ganador:");
+                jug1.deffenseBoard.mostrarTablero();
+                System.out.println("Tablero perdedor:");
+                jug2.deffenseBoard.mostrarTablero();
+            } else if(jug1.getAciertos() < jug2.getAciertos()){
+                System.out.println("El jugador " + jug2.getName() + " ha ganado, ¡Felicidades! ");
+                System.out.println("Tablero ganador:");
+                jug2.deffenseBoard.mostrarTablero();
+                System.out.println("Tablero perdedor:");
+                jug1.deffenseBoard.mostrarTablero();
+            } else{
+                System.out.println("¡Ha habido un empate!, Gracias por jugar");
+                System.out.println("Tablero de " + jug1.getName());
+                jug1.deffenseBoard.mostrarTablero();
+                System.out.println("Tablero de " + jug2.getName());
+                jug2.deffenseBoard.mostrarTablero();
+            }
+        } else{
+            if (jug1.getCantBarcos() < jug2.getCantBarcos()){
+                System.out.println("El jugador " + jug2.getName() + " ha ganado, ¡Felicidades! ");
+                System.out.println("Tablero ganador:");
+                jug2.deffenseBoard.mostrarTablero();
+                System.out.println("Tablero perdedor:");
+                jug1.deffenseBoard.mostrarTablero();
+            } else{
+                System.out.println("El jugador " + jug1.getName() + " ha ganado, ¡Felicidades! ");
+                System.out.println("Tablero ganador:");
+                jug1.deffenseBoard.mostrarTablero();
+                System.out.println("Tablero perdedor:");
+                jug2.deffenseBoard.mostrarTablero();
+            }
+        }
 
+    }
+
+    public static boolean ataque(Jugador jTirador, Jugador jEnemigo){
+
+        int fila, columna, tamaño = jTirador.deffenseBoard.getTamaño();
+        char lugar;
+        boolean bool = false;
+        
+        Scanner scanner = new Scanner(System.in);
+        
+
+        System.out.println("-----\nTablero enemigo: ");
+        jEnemigo.attackBoard.mostrarTablero();
+
+        do{
+
+            do{
+                System.out.println("-----\nIngrese la fila donde quiere disparar");
+                fila = scanner.nextInt();
+            } while (fila >= tamaño || fila < 0);
+
+            do{
+                System.out.println("-----\nIngrese la columna donde quiere disparar");
+                columna = scanner.nextInt();
+            } while (columna >= tamaño || columna < 0);
+
+            lugar = jEnemigo.attackBoard.getBoard()[fila][columna];
+            if (lugar == 'X' || lugar == 'O'){
+                System.out.println("¡Ya se disparo a este lugar!, intentelo de nuevo");
+                continue;
+            }else{
+                bool = true;
+            }
+
+        } while (bool == false);
+
+        Fichas fichaAlcanzada = jEnemigo.deffenseBoard.getBoard()[fila][columna];
+
+        if (fichaAlcanzada.getId() == 'M'){
+            System.out.println("¡Agua!, has fallado :(");
+            jEnemigo.attackBoard.getBoard()[fila][columna] = 'O';
+            fichaAlcanzada.setId('O');
+        }else if(fichaAlcanzada.getId() == 'I'){
+            System.out.println("¡Fallaste!, diste en una isla");
+            jEnemigo.attackBoard.getBoard()[fila][columna] = 'I';
+            fichaAlcanzada.setId('O');
+            //Posible implementacion de alguna mecanica con las islas
+        }else{
+
+            if (fichaAlcanzada.getTamaño() > 1){
+                System.out.println("¡Diste en un objetivo!, tiras otra vez");
+                fichaAlcanzada.disminuirTamaño();
+                jEnemigo.deffenseBoard.getBoard()[fila][columna] = new Restos();
+                jEnemigo.attackBoard.getBoard()[fila][columna] = 'X';
+            }else{
+                System.out.println("¡Hundiste una embarcacion!");
+                jEnemigo.attackBoard.getBoard()[fila][columna] = 'X';
+                switch (fichaAlcanzada.getId()) {
+                    case 'L':
+                        jEnemigo.eliminarBarco("Lancha");
+                        break;
+                    case 'P': 
+                        jEnemigo.eliminarBarco("Portaaviones");
+                        break;
+                    case 'B':
+                        jEnemigo.eliminarBarco("Buque");
+                        break;                    
+                    case 'S':
+                        jEnemigo.eliminarBarco("Submarino");
+                        break;
+                    case 'C':
+                        jEnemigo.eliminarBarco("Crucero");
+                        break;
+                }
+
+                fichaAlcanzada.setId('X');
+                jEnemigo.disminuirCantBarcos();
+                
+            }
+            
+            return true;
+        }
+        
+        return false;
+        
     }
 
     public static String[] seleccionDeBarcos(int cantShips) {
         Scanner scanner = new Scanner(System.in);
         String[] barcos = new String[cantShips];
-        int option = 0;
-        for (int i = 0; i < cantShips; i++) {
+        int option;
+        System.out.println("----------\n¡Momento de ingresar los barcos a jugar!\n-----");
 
+        for (int i = 0; i < cantShips; i++) {
+            
             do {
-                System.out.println("Ingrese el barco Nro " + i
-                        + " que se va a jugar\n1.Lancha (Tamaño=1)\n2.Crucero (Tamaño 2)\n3.Submarino (Tamaño 3)\n4.Buque (Tamaño 4)\n5.Portaaviones (Tamaño 5)");
+                System.out.println("Ingrese el barco Nro " + (i+1) + " que se va a jugar\n1.Lancha (Tamaño 1)\n2.Crucero (Tamaño 2)\n3.Submarino (Tamaño 3)\n4.Buque (Tamaño 4)\n5.Portaaviones (Tamaño 5)");
                 option = scanner.nextInt();
                 switch (option) {
                     case 1:
@@ -81,37 +259,40 @@ public class Juego {
                     case 5:
                         barcos[i] = "Portaaviones";
                         break;
+                    default:
+                        System.out.println("Opcion invalida");
                 }
             } while (option < 1 || option > 5);
         }
-        scanner.close();
         return barcos;
     }
 
-    public static void posicionarBarcos(String[] barcos,int tamaño, Jugador j, Jugador j2) {
-        Coordenadas positionTry;
+    public static void posicionarBarcos(String[] barcos,int tamaño, Jugador j, Jugador j2) throws InterruptedException {
+        Posicion positionTry;
         Scanner scanner = new Scanner(System.in);
-        int equis, ye, o = 0;
+        int fila, columna, o = 0;
         Jugador jActual = j;
         for (int i=0; i<=1; i++){
 
-            for (String barco: barcos){
+            System.out.println("Turno del jugador " + (i+1));
 
+            for (String barco: barcos){
+                
                 do{
                     System.out.println("-------------------");
-                    jActual.deffenseBoard.MostrarTablero();
+                    jActual.deffenseBoard.mostrarTablero();
 
-                    System.out.println("-----\nIngrese la posicion x de: " + barco);
+                    System.out.println("-----\nIngrese la fila donde desea colocar: " + barco);
                     do {
-                        equis = scanner.nextInt();
-                    } while (equis < tamaño || equis > 0);
+                        fila = scanner.nextInt();
+                    } while (fila > tamaño || fila < 0);
     
-                    System.out.println("-----\nIngrese la posicion y de: " + barco);
+                    System.out.println("-----\nIngrese la columna donde desea colocar: " + barco);
                     do {
-                        ye = scanner.nextInt();
-                    } while (ye < tamaño || ye > 0);
+                        columna = scanner.nextInt();
+                    } while (columna > tamaño || columna < 0);
 
-                    positionTry = new Coordenadas(equis,ye);
+                    positionTry = new Posicion(fila,columna);
                     Fichas ficha = new Mar();
                     switch (barco) {
                         
@@ -131,18 +312,73 @@ public class Juego {
                             ficha = new Portaaviones();
                     }
 
-                    
-                    o = verificarMapa(positionTry, j, ficha);
+                    o = verificarMapa(positionTry, jActual, ficha);
                     
                     if (o == 0){
-                        System.out.println("-----\nPosicion no valida\n-----");
+                        System.out.println("-----\nPosicion no valida, intente de nuevo\n-----");
+                        Thread.sleep(1500);
                         continue;
                     } else{
                         System.out.println("-----\nEl barco se coloco correctamente\n-----");
-                        ficha.colocar(j, positionTry, o);
+                        Thread.sleep(1500);
+                        ficha.colocar(jActual, positionTry, o);
                     }
                     
                 } while (o == 0);
+                Thread.sleep(1000);
+            }
+            jActual = j2;
+            Thread.sleep(1000);
+        }
+
+    }
+
+    public static boolean verificarGanador(Jugador j1, Jugador j2) {
+
+        if (j1.getCantBarcos() == 0){
+            return true;
+        } else if (j2.getCantBarcos() == 0){
+            return true;
+        }
+        return false;
+    }
+
+    public static void generarIslas(Jugador j1, Jugador j2, int cantIslas){
+
+        Random rnd = new Random(); 
+        Posicion position;
+        int fila, columna;
+        int tamaño = j1.deffenseBoard.getTamaño();
+        Jugador jActual = j1;
+        for (int j = 0;j<=1;j++){
+
+            for (int i = 1;i<=cantIslas;i++){
+            
+                int option = rnd.nextInt(3);
+
+                switch (option) {
+                    case 0:
+                        Isla1x2 isla1 = new Isla1x2();
+                        fila = rnd.nextInt(tamaño-1);
+                        columna = rnd.nextInt(tamaño-2);
+                        position = new Posicion(fila, columna);
+                        isla1.colocar(jActual, position);
+                        break;
+                    case 1:
+                        Isla2x2 isla2 = new Isla2x2();
+                        fila = rnd.nextInt(tamaño-2);
+                        columna = rnd.nextInt(tamaño-2);
+                        position = new Posicion(fila, columna);
+                        isla2.colocar(jActual, position);
+                        break;
+                    case 2:
+                        IslaL isla3 = new IslaL();
+                        fila = rnd.nextInt(tamaño-3);
+                        columna = rnd.nextInt(tamaño-2);
+                        position = new Posicion(fila, columna);
+                        isla3.colocar(jActual, position);
+                        break;
+                }
             }
 
             jActual = j2;
@@ -150,106 +386,99 @@ public class Juego {
 
     }
 
-    public boolean verificarGanador(Jugador j) {
-        if (j.getCantBarcos() == 0){
-            return false;
-        } 
-        return true;
-    }
-
-    public static int verificarMapa(Coordenadas position, Jugador jug1, Fichas pieza) {
+    public static int verificarMapa(Posicion position, Jugador jug1, Fichas pieza) {
         int option = 0;
-        int t = jug1.deffenseBoard.getTamaño();
-        int h = pieza.getTamaño(), equis = position.getX(), ye = position.getY();
-        if (pieza.getId() == 'M') {
-            for (int i = equis - 1; i <= equis + 1; i++) {
-                for (int j = ye - 1; i <= ye + 1; j++) {
-                    if (i < t && j < t && i > 0 && j > 0) {
-                        if (jug1.deffenseBoard.board[i][j].getId() != 'M') {
+        Fichas[][] tablero = jug1.deffenseBoard.getBoard();
+        int h = pieza.getTamaño(), fila = position.getFila(), columna = position.getColumna();
+        Scanner scanner = new Scanner(System.in);
+
+        if (tablero[fila][columna].getId() != 'M'){
+            return 0;
+        }
+
+        if (pieza.getId() == 'L'){
+            if (!verificarAdyacentes(tablero, fila, columna)){
+                return 0;
+            }else{
+                return 1;
+            }
+        }
+
+        do {
+
+            System.out.println("Opciones para colacar su barco: \n1. Vertical Hacia Arriba\n2. Vertical Hacia abajo\n3. Hacia la derecha\n4. Hacia la izquierda");
+            option = scanner.nextInt();
+            switch (option) {
+                case 1:
+                    for (int i = fila; i>=fila-h+1; i--){
+                        if (!verificarAdyacentes(tablero, i, columna)){
                             return 0;
                         }
                     }
-                }
-
+                    break;
+                case 2:
+                    for (int i = fila; i<=fila+h-1; i++){
+                        if (!verificarAdyacentes(tablero, i, columna)){
+                            return 0;
+                        }
+                    }   
+                    break;
+                case 3:
+                    for (int i = columna; i<=columna+h-1; i++){
+                        if (!verificarAdyacentes(tablero, fila, i)){
+                            return 0;
+                        }
+                    }
+                    break;
+                case 4:
+                    for (int i = columna; i>=columna-h+1; i--){
+                        if (!verificarAdyacentes(tablero, fila, i)){
+                            return 0;
+                        }
+                    }
+                    break;
+                default:
+                    System.out.println("Opcion no valida");
+                    break;
             }
-        } else {
-            Scanner scanner = new Scanner(System.in);
+        } while (option < 1 || option > 4);
 
-            do {
-                System.out.println(
-                        "Opciones para colacar su barco: \n1. Vertical Hacia Arriba\n2. Vertical Hacia abajo\n3. Hacia la derecha\n4. Hacia la izquierda");
-                option = scanner.nextInt();
-                switch (option) {
-                    case 1:
-                        if (equis - h < 0) {
-                            return 0;
-                        } else {
-                            for (int i = equis - h; i <= equis + 1; i++) {
-                                for (int j = ye - 1; j <= ye + 1; j++) {
-                                    if (i < t && j < t && i > 0 && j > 0) {
-                                        if (jug1.deffenseBoard.board[i][j].getId() != 'M') {
-                                            return 0;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                    case 2:
-                        if (equis + h > t) {
-                            return 0;
-                        } else {
-                            for (int i = equis - 1; i <= equis + h; i++) {
-                                for (int j = ye - 1; j <= ye + 1; j++) {
-                                    if (i < t && j < t && i > 0 && j > 0) {
-                                        if (jug1.deffenseBoard.board[i][j].getId() != 'M') {
-                                            return 0;
-                                        }
-                                    }
-                                }
-                            }
-
-                        }
-
-                        break;
-                    case 3:
-                        if (ye + h > t) {
-                            return 0;
-                        } else {
-                            for (int i = equis - 1; i <= equis + 1; i++) {
-                                for (int j = ye - 1; j <= ye + h; j++) {
-                                    if (i < t && j < t && i > 0 && j > 0) {
-                                        if (jug1.deffenseBoard.board[i][j].getId() != 'M') {
-                                            return 0;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                    case 4:
-                        if (ye - h < 0) {
-                            return 0;
-                        } else {
-                            for (int i = equis - 1; i <= equis + 1; i++) {
-                                for (int j = ye - h; i <= ye + 1; j++) {
-                                    if (i < t && j < t && i > 0 && j > 0) {
-                                        if (jug1.deffenseBoard.board[i][j].getId() != 'M') {
-                                            return 0;
-                                        }
-                                    }
-                                }
-                            }
-
-                        }
-                        break;
-                    default:
-                        System.out.println("Opcion no valida");
-                        break;
-                }
-            } while (option < 1 || option > 4);
-        }
         return option;
 
+    }
+    
+    public static boolean verificarAdyacentes(Fichas[][] board, int i, int j) {
+        int filas = board.length;
+        int columnas = board.length;
+
+        if (i < 0 || i >= filas || j < 0 || j >= columnas) {
+            return false;
+        }
+
+        if (i - 1 >= 0) {
+            if (board[i-1][j].getId() != 'M' && board[i-1][j].getId() != 'I' ){
+                return false;
+            }
+        }
+
+        if (i + 1 < filas) {
+            if (board[i+1][j].getId() != 'M' && board[i+1][j].getId() != 'I' ){
+                return false;
+            }
+        }
+
+        if (j - 1 >= 0) {
+            if (board[i][j-1].getId() != 'M' && board[i][j-1].getId() != 'I' ){
+                return false;
+            }
+        }
+
+        if (j + 1 < columnas) {
+            if (board[i][j+1].getId() != 'M' && board[i][j+1].getId() != 'I' ){
+                return false;
+            }
+        }
+
+        return true;
     }
 }

@@ -4,9 +4,9 @@ public class Mar extends Fichas{
         super(1,'M');
     }
 
-    public void colocar(Fichas[][] board, Coordenadas position){
+    public void colocar(Fichas[][] board, Posicion position){
         
-        board[position.getX()][position.getY()] = this;
+        board[position.getFila()][position.getColumna()] = this;
         
         
     }

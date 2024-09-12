@@ -6,9 +6,9 @@ public class Lancha extends Fichas{
 
     }
     
-    public void colocar(Jugador j, Coordenadas position, int option){
+    public void colocar(Jugador j, Posicion position, int option){
         
-        j.deffenseBoard.board[position.getX()][position.getY()] = this;
+        j.deffenseBoard.getBoard()[position.getFila()][position.getColumna()] = this;
 
     }
 }

@@ -18,11 +18,15 @@ public abstract class Fichas implements Colocable{
         return this.identificador;
     }
 
+    public void setId(char x){
+        this.identificador = x;
+    }
+
     public void disminuirTamaño(){
         this.tamaño--;
     }
 
-    public void colocar(Jugador p1, Coordenadas position, int option){
+    public void colocar(Jugador p1, Posicion position, int option){
     
     }
 }

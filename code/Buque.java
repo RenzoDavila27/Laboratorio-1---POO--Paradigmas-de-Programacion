@@ -4,30 +4,30 @@ public class Buque extends Fichas{
         super(4, 'B');
     }
 
-    public void colocar(Jugador j, Coordenadas position, int option){
+    public void colocar(Jugador j, Posicion position, int option){
         
-        int equis = position.getX();
-        int ye = position.getY();
+        int fila = position.getFila();
+        int columna = position.getColumna();
 
         switch (option){
             case 1:
-                for (int i = ye; i >= ye-3;i--){
-                    j.deffenseBoard.board[equis][i] = this;
+                for (int i = fila; i >= fila-3;i--){
+                    j.deffenseBoard.getBoard()[i][columna] = this;
                 }
                 break;
             case 2:
-                for (int i = ye; i <= ye+3;i++){
-                    j.deffenseBoard.board[equis][i] = this;
+                for (int i = fila; i <= fila+3;i++){
+                    j.deffenseBoard.getBoard()[i][columna] = this;
                 }
                 break;
             case 3:
-                for (int i = equis; i <= equis+3;i++){
-                    j.deffenseBoard.board[i][ye] = this;
+                for (int i = columna; i <= columna+3;i++){
+                    j.deffenseBoard.getBoard()[fila][i] = this;
                 }
                 break;
             case 4:
-                for (int i = equis; i >= equis-3;i--){
-                    j.deffenseBoard.board[i][ye] = this;
+                for (int i = columna; i >= columna-3;i--){
+                    j.deffenseBoard.getBoard()[fila][i] = this;
                 }
                 break;
         }
