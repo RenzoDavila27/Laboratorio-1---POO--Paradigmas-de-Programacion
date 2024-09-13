@@ -6,7 +6,7 @@ import java.util.Random;
 public class Juego {
 
     public static void main(String[] args) throws InterruptedException {
-        int tamaño = 0, cantIntentos = 0, cantBarcos = 0, cantIslas = 0, option = 0, numTurno = 1, metodoDeJuego = 0;
+        int tamaño = 0, cantIntentos = 0, cantBarcos = 0, cantIslas = 0, option = 0, numTurno = 0, metodoDeJuego = 0;
         HUB start = new HUB();
         boolean seguirJugando = true;
         start.ingresarHub();
@@ -63,16 +63,15 @@ public class Juego {
         while (numTurno <= cantIntentos && seguirJugando){
             
             if (jug1.getCantBarcos() == 0 && jug2.getAciertos() == jug1.getAciertos()-1){
-                System.out.println("Ultima oportunidad de " + jug1.getName());
+                System.out.println("-----\nUltima oportunidad de " + jug1.getName());
                 seguirJugando = false;
             }else if (jug2.getCantBarcos() == 0 && jug1.getAciertos() == jug2.getAciertos()-1){
-                System.out.println("Ultima oportunidad de " + jug2.getName());
+                System.out.println("-----\nUltima oportunidad de " + jug2.getName());
                 seguirJugando = false;
+            }else{
+                System.out.println("----------\nTurno de " + jActual.getName());
             }
 
-
-
-            System.out.println("----------\nTurno de " + jActual.getName());
             System.out.println("Ingrese la accion a realizar\n1. Quiero ver mi tablero y barcos\n2. Quiero atacar");
 
             do{
@@ -117,7 +116,7 @@ public class Juego {
         }
 
         verificarGanador(jug1, jug2, numTurno, cantIntentos);
-
+        scanner.close();
     }
 
     public static void verificarGanador(Jugador jug1, Jugador jug2, int n, int i) {
@@ -165,7 +164,7 @@ public class Juego {
         char lugar;
         boolean bool = false;
         
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner1 = new Scanner(System.in);
         
 
         System.out.println("-----\nTablero enemigo: ");
@@ -176,20 +175,20 @@ public class Juego {
             do{
                 System.out.println("-----\nIngrese la fila donde quiere disparar");
                 try{
-                    fila = scanner.nextInt();
+                    fila = scanner1.nextInt();
                 }catch(InputMismatchException e){
                     System.out.println("¡Debe ingresar una posicion del tablero!");
-                    scanner.next();
+                    scanner1.next();
                 }
             } while (fila >= tamaño || fila < 0);
 
             do{
                 System.out.println("-----\nIngrese la columna donde quiere disparar");
                 try{
-                    columna = scanner.nextInt();
+                    columna = scanner1.nextInt();
                 }catch(InputMismatchException e){
                     System.out.println("¡Debe ingresar una posicion del tablero!");
-                    scanner.next();
+                    scanner1.next();
                 }
                 
             } while (columna >= tamaño || columna < 0);
@@ -247,16 +246,16 @@ public class Juego {
                 jEnemigo.disminuirCantBarcos();
                 
             }
-            
+
             return true;
         }
-        
+
         return false;
         
     }
 
     public static String[] seleccionDeBarcos(int cantShips) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner2 = new Scanner(System.in);
         String[] barcos = new String[cantShips];
         int option = 0;
         System.out.println("----------\n¡Momento de ingresar los barcos a jugar!\n-----");
@@ -266,9 +265,9 @@ public class Juego {
             do {
                 System.out.println("Ingrese el barco numero " + (i+1) + " que se va a jugar\n1.Lancha (Tamaño 1)\n2.Crucero (Tamaño 2)\n3.Submarino (Tamaño 3)\n4.Buque (Tamaño 4)\n5.Portaaviones (Tamaño 5)");
                 try{
-                    option = scanner.nextInt();
+                    option = scanner2.nextInt();
                 }catch(InputMismatchException e){
-                    scanner.next();
+                    scanner2.next();
                 }
                 switch (option) {
                     case 1:
@@ -291,12 +290,13 @@ public class Juego {
                 }
             } while (option < 1 || option > 5);
         }
+
         return barcos;
     }
 
     public static void posicionarBarcos(String[] barcos,int tamaño, Jugador j, Jugador j2) throws InterruptedException {
         Posicion positionTry;
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner3 = new Scanner(System.in);
         int fila = 0, columna = 0, o = 0;
         Jugador jActual = j;
         for (int i=0; i<=1; i++){
@@ -312,20 +312,20 @@ public class Juego {
                     System.out.println("-----\nIngrese la fila donde desea colocar: " + barco);
                     do {
                         try{
-                            fila = scanner.nextInt();
+                            fila = scanner3.nextInt();
                         }catch(InputMismatchException e){
                             System.out.println("¡Debe ingresar una posicion del tablero!");
-                            scanner.next();
+                            scanner3.next();
                         }
                     } while (fila > tamaño || fila < 0);
     
                     System.out.println("-----\nIngrese la columna donde desea colocar: " + barco);
                     do {
                         try{
-                            columna = scanner.nextInt();
+                            columna = scanner3.nextInt();
                         }catch(InputMismatchException e){
                             System.out.println("¡Debe ingresar una posicion del tablero!");
-                            scanner.next();
+                            scanner3.next();
                         }
                     } while (columna > tamaño || columna < 0);
 
@@ -366,10 +366,12 @@ public class Juego {
             }
 
             System.out.println("Presione Enter para colocar Barcos del jugador 2");
-            scanner.nextLine();
+            scanner3.nextLine();
 
             jActual = j2;
         }
+
+
 
     }
 
@@ -420,7 +422,7 @@ public class Juego {
         int option = 0;
         Fichas[][] tablero = jug1.deffenseBoard.getBoard();
         int h = pieza.getTamaño(), fila = position.getFila(), columna = position.getColumna();
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner4 = new Scanner(System.in);
 
         if (tablero[fila][columna].getId() != 'M'){
             return 0;
@@ -437,13 +439,14 @@ public class Juego {
         do {
             System.out.println("Opciones para colacar su barco: \n1. Vertical Hacia Arriba\n2. Vertical Hacia abajo\n3. Hacia la derecha\n4. Hacia la izquierda");
             try{
-                option = scanner.nextInt();
+                option = scanner4.nextInt();
             }catch(InputMismatchException e){
-                scanner.next();
+                scanner4.next();
             }
             switch (option) {
                 case 1:
                     for (int i = fila; i>=fila-h+1; i--){
+                        System.out.println(i);
                         if (!verificarAdyacentes(tablero, i, columna)){
                             return 0;
                         }

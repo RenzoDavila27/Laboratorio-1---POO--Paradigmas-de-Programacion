@@ -3,7 +3,7 @@ public class Crucero extends Fichas{
     
 
     public Crucero(){
-        super(3, 'C');
+        super(2, 'C');
     }
 
     public void colocar(Jugador j, Posicion position, int option){
