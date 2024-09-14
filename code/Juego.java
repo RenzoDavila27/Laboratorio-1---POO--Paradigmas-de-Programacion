@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Random;
 
@@ -17,7 +18,7 @@ public class Juego {
         System.out.println("Ingrese el nombre del jugador 2: ");
         String name2 = scanner.nextLine();
         System.out.println("Hola jugador " + name1 + " y " + name2);
-        System.out.println("Opciones de tablero:\n1. 12x12 - 7 barcos - 5 isla - 100 intentos\n2. 10x10 - 5 barcos - 4 islas - 70 intentos\n3. 7x7 - 4 barcos - 3 islas - 32 intentos");
+        System.out.println("Opciones de tablero:\n1. 12x12 - 7 barcos - 5 isla - 100 intentos\n2. 10x10 - 5 barcos - 4 islas - 70 intentos\n3. 7x7 - 3 barcos - 3 islas - 32 intentos");
         do {
             try{
                 metodoDeJuego = scanner.nextInt();
@@ -205,24 +206,24 @@ public class Juego {
 
         Fichas fichaAlcanzada = jEnemigo.deffenseBoard.getBoard()[fila][columna];
 
+
         if (fichaAlcanzada.getId() == 'M'){
-            System.out.println("¡Agua!, has fallado :(");
             jEnemigo.attackBoard.getBoard()[fila][columna] = 'O';
             fichaAlcanzada.setId('O');
+            System.out.println("¡Agua!, has fallado :(");
         }else if(fichaAlcanzada.getId() == 'I'){
-            System.out.println("¡Fallaste!, diste en una isla");
             jEnemigo.attackBoard.getBoard()[fila][columna] = 'I';
             fichaAlcanzada.setId('O');
+            System.out.println("¡Fallaste!, diste en una isla");
             //Posible implementacion de alguna mecanica con las islas
         }else{
 
             if (fichaAlcanzada.getTamaño() > 1){
-                System.out.println("¡Diste en un objetivo!");
                 fichaAlcanzada.disminuirTamaño();
                 jEnemigo.deffenseBoard.getBoard()[fila][columna] = new Restos();
                 jEnemigo.attackBoard.getBoard()[fila][columna] = 'X';
+                System.out.println("¡Diste en un objetivo!");
             }else{
-                System.out.println("¡Hundiste una embarcacion!");
                 jEnemigo.attackBoard.getBoard()[fila][columna] = 'X';
                 switch (fichaAlcanzada.getId()) {
                     case 'L':
@@ -244,12 +245,16 @@ public class Juego {
 
                 fichaAlcanzada.setId('X');
                 jEnemigo.disminuirCantBarcos();
+                System.out.println("¡Hundiste una embarcacion!");
                 
             }
 
+            jEnemigo.attackBoard.mostrarTablero();
             return true;
+
         }
 
+        jEnemigo.attackBoard.mostrarTablero();
         return false;
         
     }
@@ -365,14 +370,27 @@ public class Juego {
                 Thread.sleep(1000);
             }
 
-            System.out.println("Presione Enter para colocar Barcos del jugador 2");
-            scanner3.nextLine();
+            System.out.println("Tablero resultante:");
+            jActual.deffenseBoard.mostrarTablero();
+            if (jActual == j){
+                System.out.println("Presione Enter para colocar barcos del jugador 2"); 
+            }
+
+
+            try {
+                System.in.read();
+            } catch (IOException e) {}
 
             jActual = j2;
         }
 
-
-
+        System.out.println("Tablero resultante:");
+        jActual.deffenseBoard.mostrarTablero();
+        System.out.println("Presione Enter para empezar el juego"); 
+        
+        try {
+            System.in.read();
+        } catch (IOException e) {}
     }
 
     public static void generarIslas(Jugador j1, Jugador j2, int cantIslas){
@@ -437,7 +455,7 @@ public class Juego {
         }
 
         do {
-            System.out.println("Opciones para colacar su barco: \n1. Vertical Hacia Arriba\n2. Vertical Hacia abajo\n3. Hacia la derecha\n4. Hacia la izquierda");
+            System.out.println("Opciones para colacar su barco: \n1. Hacia arriba\n2. Hacia abajo\n3. Hacia la derecha\n4. Hacia la izquierda");
             try{
                 option = scanner4.nextInt();
             }catch(InputMismatchException e){
