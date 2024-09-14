@@ -1,13 +1,13 @@
 public abstract class Tablero {
 
-    protected int tamaño;
+    protected int tamanio;
 
     public Tablero(int t){
-        this.tamaño = t;
+        this.tamanio = t;
     }
 
-    public int getTamaño(){
-        return this.tamaño;
+    public int getTamano(){
+        return this.tamanio;
     }
 
     public abstract void mostrarTablero();

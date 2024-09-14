@@ -2,16 +2,16 @@
 public abstract class Fichas implements Colocable{
     
     private char identificador;
-    private int tamaño;
+    private int tamano;
 
     
     public Fichas(int t, char id){
-        this.tamaño = t;
+        this.tamano = t;
         this.identificador =  id;
     }
 
-    public int getTamaño(){
-        return this.tamaño;
+    public int getTamano(){
+        return this.tamano;
     }
 
     public char getId(){
@@ -22,8 +22,8 @@ public abstract class Fichas implements Colocable{
         this.identificador = x;
     }
 
-    public void disminuirTamaño(){
-        this.tamaño--;
+    public void disminuirTamano(){
+        this.tamano--;
     }
 
     public void colocar(Jugador p1, Posicion position, int option){

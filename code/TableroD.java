@@ -21,14 +21,14 @@ public class TableroD extends Tablero{
     public void mostrarTablero(){
 
         System.out.print("    ");
-        for (int p = 0; p < tamaño; p++){
+        for (int p = 0; p < tamanio; p++){
             System.out.print(p + "  ");
         }
         System.out.println("");
 
-        for (int i=0;i<tamaño;i++){
+        for (int i=0;i<tamanio;i++){
             System.out.print(i + " [");
-            for (int j=0;j<tamaño;j++){
+            for (int j=0;j<tamanio;j++){
                 System.out.print(" " + board[i][j].getId() + " ");
             }
             System.out.println("]");
