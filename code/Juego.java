@@ -7,7 +7,7 @@ import java.util.Random;
 public class Juego {
 
     public static void main(String[] args) throws InterruptedException {
-        int tamano = 0, cantIntentos = 0, cantBarcos = 0, cantIslas = 0, option = 0, numTurno = 0, metodoDeJuego = 0;
+        int tamanio = 0, cantIntentos = 0, cantBarcos = 0, cantIslas = 0, option = 0, numTurno = 0, metodoDeJuego = 0;
         HUB start = new HUB();
         boolean seguirJugando = true;
         start.ingresarHub();
@@ -27,19 +27,19 @@ public class Juego {
             }
             switch (metodoDeJuego) {
                 case 1:
-                    tamano = 12;
+                    tamanio = 12;
                     cantBarcos = 7;
                     cantIntentos = 140; // 70 para cada jugador
                     cantIslas = 5;
                     break;
                 case 2:
-                    tamano = 10;
+                    tamanio = 10;
                     cantBarcos = 5;
                     cantIntentos = 140; // 70 para cada jugador
                     cantIslas = 4;
                     break;
                 case 3:
-                    tamano = 7;
+                    tamanio = 7;
                     cantBarcos = 3;
                     cantIntentos = 64; // 32 para cada jugador
                     cantIslas = 3;
@@ -49,14 +49,14 @@ public class Juego {
             }
         } while (metodoDeJuego > 3 || metodoDeJuego < 1);
 
-        Jugador jug1 = new Jugador(name1, tamano, cantBarcos);
-        Jugador jug2 = new Jugador(name2, tamano, cantBarcos);
+        Jugador jug1 = new Jugador(name1, tamanio, cantBarcos);
+        Jugador jug2 = new Jugador(name2, tamanio, cantBarcos);
 
         generarIslas(jug1, jug2, cantIslas);
         String[] barcos = seleccionDeBarcos(cantBarcos);
         jug1.inicializarBarcos(barcos);
         jug2.inicializarBarcos(barcos);
-        posicionarBarcos(barcos, tamano-1, jug1, jug2);
+        posicionarBarcos(barcos, tamanio-1, jug1, jug2);
 
         Jugador jActual = jug1, jEnemigo = jug2;
         System.out.println("----------\n¡Comienza el juego!");
@@ -161,7 +161,7 @@ public class Juego {
 
     public static boolean ataque(Jugador jTirador, Jugador jEnemigo){
 
-        int fila = -1, columna = -1, tamano = jTirador.deffenseBoard.getTamano();
+        int fila = -1, columna = -1, tamanio = jTirador.deffenseBoard.getTamanio();
         char lugar;
         boolean bool = false;
         
@@ -181,7 +181,7 @@ public class Juego {
                     System.out.println("¡Debe ingresar una posicion del tablero!");
                     scanner1.next();
                 }
-            } while (fila >= tamano || fila < 0);
+            } while (fila >= tamanio || fila < 0);
 
             do{
                 System.out.println("-----\nIngrese la columna donde quiere disparar");
@@ -192,7 +192,7 @@ public class Juego {
                     scanner1.next();
                 }
                 
-            } while (columna >= tamano || columna < 0);
+            } while (columna >= tamanio || columna < 0);
 
             lugar = jEnemigo.attackBoard.getBoard()[fila][columna];
             if (lugar == 'X' || lugar == 'O'){
@@ -218,8 +218,8 @@ public class Juego {
             //Posible implementacion de alguna mecanica con las islas
         }else{
 
-            if (fichaAlcanzada.getTamano() > 1){
-                fichaAlcanzada.disminuirTamano();
+            if (fichaAlcanzada.getTamanio() > 1){
+                fichaAlcanzada.disminuirTamanio();
                 jEnemigo.deffenseBoard.getBoard()[fila][columna] = new Restos();
                 jEnemigo.attackBoard.getBoard()[fila][columna] = 'X';
                 System.out.println("¡Diste en un objetivo!");
@@ -268,7 +268,7 @@ public class Juego {
         for (int i = 0; i < cantShips; i++) {
             
             do {
-                System.out.println("Ingrese el barco numero " + (i+1) + " que se va a jugar\n1.Lancha (Tamano 1)\n2.Crucero (Tamano 2)\n3.Submarino (Tamano 3)\n4.Buque (Tamano 4)\n5.Portaaviones (Tamano 5)");
+                System.out.println("Ingrese el barco numero " + (i+1) + " que se va a jugar\n1.Lancha (Tamanio 1)\n2.Crucero (Tamanio 2)\n3.Submarino (Tamanio 3)\n4.Buque (Tamanio 4)\n5.Portaaviones (Tamanio 5)");
                 try{
                     option = scanner2.nextInt();
                 }catch(InputMismatchException e){
@@ -299,7 +299,7 @@ public class Juego {
         return barcos;
     }
 
-    public static void posicionarBarcos(String[] barcos,int tamano, Jugador j, Jugador j2) throws InterruptedException {
+    public static void posicionarBarcos(String[] barcos,int tamanio, Jugador j, Jugador j2) throws InterruptedException {
         Posicion positionTry;
         Scanner scanner3 = new Scanner(System.in);
         int fila = 0, columna = 0, o = 0;
@@ -322,7 +322,7 @@ public class Juego {
                             System.out.println("¡Debe ingresar una posicion del tablero!");
                             scanner3.next();
                         }
-                    } while (fila > tamano || fila < 0);
+                    } while (fila > tamanio || fila < 0);
     
                     System.out.println("-----\nIngrese la columna donde desea colocar: " + barco);
                     do {
@@ -332,7 +332,7 @@ public class Juego {
                             System.out.println("¡Debe ingresar una posicion del tablero!");
                             scanner3.next();
                         }
-                    } while (columna > tamano || columna < 0);
+                    } while (columna > tamanio || columna < 0);
 
                     positionTry = new Posicion(fila,columna);
                     Fichas ficha = new Mar();
@@ -398,7 +398,7 @@ public class Juego {
         Random rnd = new Random(); 
         Posicion position;
         int fila, columna;
-        int tamano = j1.deffenseBoard.getTamano();
+        int tamanio = j1.deffenseBoard.getTamanio();
         Jugador jActual = j1;
         for (int j = 0;j<=1;j++){
 
@@ -409,22 +409,22 @@ public class Juego {
                 switch (option) {
                     case 0:
                         Isla1x2 isla1 = new Isla1x2();
-                        fila = rnd.nextInt(tamano-1);
-                        columna = rnd.nextInt(tamano-2);
+                        fila = rnd.nextInt(tamanio-1);
+                        columna = rnd.nextInt(tamanio-2);
                         position = new Posicion(fila, columna);
                         isla1.colocar(jActual, position);
                         break;
                     case 1:
                         Isla2x2 isla2 = new Isla2x2();
-                        fila = rnd.nextInt(tamano-2);
-                        columna = rnd.nextInt(tamano-2);
+                        fila = rnd.nextInt(tamanio-2);
+                        columna = rnd.nextInt(tamanio-2);
                         position = new Posicion(fila, columna);
                         isla2.colocar(jActual, position);
                         break;
                     case 2:
                         IslaL isla3 = new IslaL();
-                        fila = rnd.nextInt(tamano-3);
-                        columna = rnd.nextInt(tamano-2);
+                        fila = rnd.nextInt(tamanio-3);
+                        columna = rnd.nextInt(tamanio-2);
                         position = new Posicion(fila, columna);
                         isla3.colocar(jActual, position);
                         break;
@@ -439,7 +439,7 @@ public class Juego {
     public static int verificarMapa(Posicion position, Jugador jug1, Fichas pieza) {
         int option = 0;
         Fichas[][] tablero = jug1.deffenseBoard.getBoard();
-        int h = pieza.getTamano(), fila = position.getFila(), columna = position.getColumna();
+        int h = pieza.getTamanio(), fila = position.getFila(), columna = position.getColumna();
         Scanner scanner4 = new Scanner(System.in);
 
         if (tablero[fila][columna].getId() != 'M'){

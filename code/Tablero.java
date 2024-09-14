@@ -6,7 +6,7 @@ public abstract class Tablero {
         this.tamanio = t;
     }
 
-    public int getTamano(){
+    public int getTamanio(){
         return this.tamanio;
     }
 
