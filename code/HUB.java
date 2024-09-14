@@ -12,8 +12,7 @@ public class HUB {
 
         int option;
         Scanner scanner = new Scanner(System.in);
-        System.out.println(
-                "¡Bienvenidos a Batalla Naval!\nSeleccione una opcion:\n1. Empezar a jugar\n2. Leer reglas\n3. Salir del juego");
+        System.out.println("¡Bienvenidos a Batalla Naval!\nSeleccione una opcion:\n1. Empezar a jugar\n2. Leer reglas\n3. Salir del juego");
 
         do{
             option = scanner.nextInt();
@@ -42,7 +41,7 @@ public class HUB {
     }
 
     private static void leerReglas() {
-        System.out.println("En este pequeño apartado, les enseñaremos como jugar correctamente:");
+        System.out.println("En este pequenio apartado, les enseniaremos como jugar correctamente:");
         System.out.println("1er paso: Ingresaran sus nombres");
         System.out.println("2do paso: Eligiran la opcion de tablero, ademas de la cantidad de barcos, islas e intentos");
         System.out.println("3er paso: Realizaran la seleccion de barcos, donde podran elegir entre 5 barcos a jugar, ¡Recuerden la cantidad de barcos elegida!");
