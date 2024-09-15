@@ -215,7 +215,7 @@ public class Juego {
             } while (columna >= tamanio || columna < 0);
 
             lugar = jEnemigo.attackBoard.getBoard()[fila][columna];
-            if (lugar == 'X' || lugar == 'O'){
+            if (lugar == 'X' || lugar == 'O' || lugar == 'I'){
                 System.out.println("¡Ya se disparo a este lugar!, intentelo de nuevo");
                 continue;
             }else{
@@ -233,14 +233,14 @@ public class Juego {
             System.out.println("¡Agua!, has fallado :(");
         }else if(fichaAlcanzada.getId() == 'I'){
             jEnemigo.attackBoard.getBoard()[fila][columna] = 'I';
-            fichaAlcanzada.setId('O');
+            jEnemigo.deffenseBoard.getBoard()[fila][columna] = new Restos('O');
             System.out.println("¡Fallaste!, diste en una isla");
             //Posible implementacion de alguna mecanica con las islas
         }else{
 
             if (fichaAlcanzada.getTamanio() > 1){
                 fichaAlcanzada.disminuirTamanio();
-                jEnemigo.deffenseBoard.getBoard()[fila][columna] = new Restos();
+                jEnemigo.deffenseBoard.getBoard()[fila][columna] = new Restos('X');
                 jEnemigo.attackBoard.getBoard()[fila][columna] = 'X';
                 System.out.println("¡Diste en un objetivo!");
             }else{
@@ -523,7 +523,7 @@ public class Juego {
         if (i < 0 || i >= filas || j < 0 || j >= columnas){
             return false;
         }
-        
+
         if (board[i][j].getId() !='M'){
             return false;
         }

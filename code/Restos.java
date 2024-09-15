@@ -1,7 +1,7 @@
 public class Restos extends Fichas {
     
-    public Restos(){
-        super(1, 'X');
+    public Restos(char identificador){
+        super(1, identificador);
     }
 
 }
