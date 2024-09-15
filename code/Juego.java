@@ -314,6 +314,7 @@ public class Juego {
                         System.out.println("Opcion invalida");
                 }
             } while (option < 1 || option > 5);
+            option = 0;
         }
 
         return barcos;
@@ -374,7 +375,7 @@ public class Juego {
                             ficha = new Portaaviones();
                     }
 
-                    o = verificarMapa(positionTry, jActual, ficha);
+                    o = jActual.deffenseBoard.verificarMapa(positionTry, ficha);
                     
                     if (o == 0){
                         System.out.println("-----\nPosicion no valida, intente de nuevo\n-----");
@@ -387,6 +388,8 @@ public class Juego {
                     }
                     
                 } while (o == 0);
+                fila = -1;
+                columna = -1;
                 Thread.sleep(1000);
             }
 
@@ -450,108 +453,5 @@ public class Juego {
             jActual = j2;
         }
 
-    }
-
-    public static int verificarMapa(Posicion position, Jugador jug1, Fichas pieza) {
-        int option = 0;
-        Fichas[][] tablero = jug1.deffenseBoard.getBoard();
-        int h = pieza.getTamanio(), fila = position.getFila(), columna = position.getColumna();
-        Scanner scanner4 = new Scanner(System.in);
-
-        if (tablero[fila][columna].getId() != 'M'){
-            return 0;
-        }
-
-        if (pieza.getId() == 'L'){
-            if (!verificarAdyacentes(tablero, fila, columna)){
-                return 0;
-            }else{
-                return 1;
-            }
-        }
-
-        do {
-            System.out.println("Opciones para colacar su barco: \n1. Hacia arriba\n2. Hacia abajo\n3. Hacia la derecha\n4. Hacia la izquierda");
-            try{
-                option = scanner4.nextInt();
-            }catch(InputMismatchException e){
-                scanner4.next();
-            }
-            switch (option) {
-                case 1:
-                    for (int i = fila; i>=fila-h+1; i--){
-                        if (!verificarAdyacentes(tablero, i, columna)){
-                            return 0;
-                        }
-                    }
-                    break;
-                case 2:
-                    for (int i = fila; i<=fila+h-1; i++){
-                        if (!verificarAdyacentes(tablero, i, columna)){
-                            return 0;
-                        }
-                    }   
-                    break;
-                case 3:
-                    for (int i = columna; i<=columna+h-1; i++){
-                        if (!verificarAdyacentes(tablero, fila, i)){
-                            return 0;
-                        }
-                    }
-                    break;
-                case 4:
-                    for (int i = columna; i>=columna-h+1; i--){
-                        if (!verificarAdyacentes(tablero, fila, i)){
-                            return 0;
-                        }
-                    }
-                    break;
-                default:
-                    System.out.println("Opcion no valida");
-                    break;
-            }
-        } while (option < 1 || option > 4);
-
-        return option;
-
-    }
-    
-    public static boolean verificarAdyacentes(Fichas[][] board, int i, int j) {
-        int filas = board.length;
-        int columnas = board.length;
-
-        if (i < 0 || i >= filas || j < 0 || j >= columnas){
-            return false;
-        }
-
-        if (board[i][j].getId() !='M'){
-            return false;
-        }
-
-        if (i - 1 >= 0) {
-            if (board[i-1][j].getId() != 'M' && board[i-1][j].getId() != 'I' ){
-                return false;
-            }
-        }
-
-        if (i + 1 < filas) {
-            if (board[i+1][j].getId() != 'M' && board[i+1][j].getId() != 'I' ){
-                return false;
-            }
-        }
-
-        if (j - 1 >= 0) {
-            if (board[i][j-1].getId() != 'M' && board[i][j-1].getId() != 'I' ){
-                return false;
-            }
-        }
-
-        if (j + 1 < columnas) {
-            if (board[i][j+1].getId() != 'M' && board[i][j+1].getId() != 'I' ){
-                return false;
-            }
-        }
-
-        return true;
     }
 }
