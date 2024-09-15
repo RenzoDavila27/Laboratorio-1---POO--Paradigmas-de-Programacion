@@ -1,6 +1,5 @@
 import java.util.Scanner;
 
-import com.ibm.security.krb5.internal.crypto.j;
 
 import java.io.IOException;
 import java.util.InputMismatchException;
@@ -43,8 +42,8 @@ public class Juego {
                     break;
                 case 3:
                     tamanio = 7;
-                    cantBarcos = 2;
-                    cantIntentos = 4; // 32 para cada jugador
+                    cantBarcos = 3;
+                    cantIntentos = 64; // 32 para cada jugador
                     cantIslas = 3;
                     break;
                 default:

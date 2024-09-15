@@ -2,9 +2,6 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import com.ibm.security.jgss.n;
-
-
 public class HUB {
 
     public HUB(){
