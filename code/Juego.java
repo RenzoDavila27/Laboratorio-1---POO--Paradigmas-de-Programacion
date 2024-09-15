@@ -1,4 +1,7 @@
 import java.util.Scanner;
+
+import com.ibm.security.krb5.internal.crypto.j;
+
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Random;
@@ -7,7 +10,7 @@ import java.util.Random;
 public class Juego {
 
     public static void main(String[] args) throws InterruptedException {
-        int tamanio = 0, cantIntentos = 0, cantBarcos = 0, cantIslas = 0, option = 0, numTurno = 0, metodoDeJuego = 0;
+        int tamanio = 0, cantIntentos = 0, cantBarcos = 0, cantIslas = 0, option = 0, numTurno = 1, metodoDeJuego = 0;
         HUB start = new HUB();
         boolean seguirJugando = true;
         start.ingresarHub();
@@ -40,8 +43,8 @@ public class Juego {
                     break;
                 case 3:
                     tamanio = 7;
-                    cantBarcos = 3;
-                    cantIntentos = 64; // 32 para cada jugador
+                    cantBarcos = 2;
+                    cantIntentos = 4; // 32 para cada jugador
                     cantIslas = 3;
                     break;
                 default:
@@ -63,12 +66,18 @@ public class Juego {
 
         while (numTurno <= cantIntentos && seguirJugando){
             
-            if (jug1.getCantBarcos() == 0 && jug2.getAciertos() == jug1.getAciertos()-1){
+            if (jug1.getCantBarcos() == 0 && jug2.getAciertos()-1 == jug1.getAciertos()){
                 System.out.println("-----\nUltima oportunidad de " + jug1.getName());
                 seguirJugando = false;
-            }else if (jug2.getCantBarcos() == 0 && jug1.getAciertos() == jug2.getAciertos()-1){
+                jActual = jug1;
+                jEnemigo = jug2;
+            }else if (jug2.getCantBarcos() == 0 && jug1.getAciertos()-1 == jug2.getAciertos()){
                 System.out.println("-----\nUltima oportunidad de " + jug2.getName());
                 seguirJugando = false;
+                jActual = jug2;
+                jEnemigo = jug1;
+            }else if (jug1.getCantBarcos()==0 || jug2.getCantBarcos()==0){
+                break;
             }else{
                 System.out.println("----------\nTurno de " + jActual.getName());
             }
@@ -111,7 +120,9 @@ public class Juego {
                 jActual = jEnemigo;
                 jEnemigo = transicion;
             }else{
-                System.out.println("¡Tiras nuevamente!");
+                if (jEnemigo.getCantBarcos()!=0){
+                    System.out.println("¡Tiras nuevamente!");
+                }
             }
 
         }
@@ -122,7 +133,9 @@ public class Juego {
 
     public static void verificarGanador(Jugador jug1, Jugador jug2, int n, int i) {
 
-        if (n == i){
+
+        if (n == i+1){
+            System.out.println("¡Se han acabado los disparos!");
             if (jug1.getAciertos() > jug2.getAciertos()){
                 System.out.println("El jugador " + jug1.getName() + " ha ganado, ¡Felicidades! ");
                 System.out.println("Tablero ganador:");
@@ -149,7 +162,15 @@ public class Juego {
                 jug2.deffenseBoard.mostrarTablero();
                 System.out.println("Tablero perdedor:");
                 jug1.deffenseBoard.mostrarTablero();
-            } else{
+            } else if (jug1.getCantBarcos()==jug2.getCantBarcos()) {
+
+                System.out.println("¡Ha habido un empate!, Gracias por jugar");
+                System.out.println("Tablero de " + jug1.getName());
+                jug1.deffenseBoard.mostrarTablero();
+                System.out.println("Tablero de " + jug2.getName());
+                jug2.deffenseBoard.mostrarTablero();
+                
+            }else{
                 System.out.println("El jugador " + jug1.getName() + " ha ganado, ¡Felicidades! ");
                 System.out.println("Tablero ganador:");
                 jug1.deffenseBoard.mostrarTablero();
@@ -248,7 +269,7 @@ public class Juego {
                 System.out.println("¡Hundiste una embarcacion!");
                 
             }
-
+            jTirador.aumentarAciertos();
             jEnemigo.attackBoard.mostrarTablero();
             return true;
 
@@ -302,7 +323,7 @@ public class Juego {
     public static void posicionarBarcos(String[] barcos,int tamanio, Jugador j, Jugador j2) throws InterruptedException {
         Posicion positionTry;
         Scanner scanner3 = new Scanner(System.in);
-        int fila = 0, columna = 0, o = 0;
+        int fila = -1, columna = -1, o = 0;
         Jugador jActual = j;
         for (int i=0; i<=1; i++){
 
@@ -374,18 +395,14 @@ public class Juego {
             jActual.deffenseBoard.mostrarTablero();
             if (jActual == j){
                 System.out.println("Presione Enter para colocar barcos del jugador 2"); 
+                try {
+                    System.in.read();
+                } catch (IOException e) {}
             }
-
-
-            try {
-                System.in.read();
-            } catch (IOException e) {}
 
             jActual = j2;
         }
 
-        System.out.println("Tablero resultante:");
-        jActual.deffenseBoard.mostrarTablero();
         System.out.println("Presione Enter para empezar el juego"); 
         
         try {
@@ -506,6 +523,9 @@ public class Juego {
         int columnas = board.length;
 
         if (i < 0 || i >= filas || j < 0 || j >= columnas){
+            return false;
+        }
+        if (board[i][j].getId() !='M'){
             return false;
         }
 
