@@ -480,7 +480,6 @@ public class Juego {
             switch (option) {
                 case 1:
                     for (int i = fila; i>=fila-h+1; i--){
-                        System.out.println(i);
                         if (!verificarAdyacentes(tablero, i, columna)){
                             return 0;
                         }
@@ -524,6 +523,7 @@ public class Juego {
         if (i < 0 || i >= filas || j < 0 || j >= columnas){
             return false;
         }
+        
         if (board[i][j].getId() !='M'){
             return false;
         }
