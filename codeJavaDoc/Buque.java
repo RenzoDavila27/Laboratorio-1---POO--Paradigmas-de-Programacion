@@ -1,9 +1,24 @@
+/**
+ * La clase Buque representa un barco de tipo buque que extiende la clase Fichas.
+ */
 public class Buque extends Fichas{
-
+    /**
+     * Constructor que crea un Buque con tamaño 4 y un identificador 'B'.
+     */
     public Buque(){
         super(4, 'B');
     }
-
+    /**
+    * Coloca el buque en el tablero de defensa del jugador en la posición dada
+    * y en una dirección específica, según la opción seleccionada.
+    * 
+    * @param j El jugador al que pertenece el tablero donde se colocará el buque.
+    * @param position La posición inicial donde se quiere colocar el buque.
+    * @param option   La dirección en la que se colocará el buque
+    * @see getColumna
+    * @see getFila
+    * @see getBoard
+    */
     public void colocar(Jugador j, Posicion position, int option){
         
         int fila = position.getFila();
@@ -34,3 +49,7 @@ public class Buque extends Fichas{
 
     }
 }
+/**
+ * Descripcion de metodo o clase
+
+ */

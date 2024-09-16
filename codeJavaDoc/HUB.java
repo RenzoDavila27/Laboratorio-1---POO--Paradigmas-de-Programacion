@@ -1,15 +1,24 @@
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
+    /**
+    *La clase HUB maneja el inicio del juego dandole 3 opciones al usuario Salir, Jugar, LeerReglas
+    */
 public class HUB {
 
     public HUB(){
 
     }
+   
+    /**
+    * Muestra en pantalla las opciones y le da a elegir. 
+    * @throws InputMismatchExcept
+    * @return Null
+    */
     
     public void ingresarHub() {
 
+       
         int option = 0;
         Scanner scanner = new Scanner(System.in);
         System.out.println("¡Bienvenidos a Batalla Naval!\nSeleccione una opcion:\n1. Empezar a jugar\n2. Leer reglas\n3. Salir del juego");
@@ -58,8 +67,12 @@ public class HUB {
         }while (option < 1 || option > 3);
         scanner.close();
     }
+    /**
+    * Muestra en pantalla las Reglas del Juego.
+    */
 
     private static void leerReglas() {
+        
         System.out.println("En este pequenio apartado, les enseniaremos como jugar correctamente:");
         System.out.println("1er paso: Ingresaran sus nombres");
         System.out.println("2do paso: Eligiran la opcion de tablero, ademas de la cantidad de barcos, islas e intentos");
@@ -70,7 +83,7 @@ public class HUB {
         System.out.println("7to paso: Se repetira el 5to y 6to paso, hasta que uno de los jugadores se quede sin barcos, si el segundo jugador se quedo sin barcos, y al primer jugador le queda unicamente una posicion, este tendra la oportunidad de buscar el empate en un ultimo intento. Si ambos jugadores llegan a la cantidad de intentos asignados, se decidira por el jugador con la mayor cantidad de aciertos.");
         System.out.println("¡Disfruten el juego!");
     }
-        
+    
         
 
     }
