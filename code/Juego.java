@@ -7,7 +7,6 @@ import java.util.Random;
 
 
 public class Juego {
-
     public static void main(String[] args) throws InterruptedException {
         int tamanio = 0, cantIntentos = 0, cantBarcos = 0, cantIslas = 0, option = 0, numTurno = 1, metodoDeJuego = 0;
         HUB start = new HUB();
@@ -129,7 +128,13 @@ public class Juego {
         verificarGanador(jug1, jug2, numTurno, cantIntentos);
         scanner.close();
     }
-
+    /**
+     * Verifica que usuario gano y si por aciertos por naves hundidas o si hay empate
+     * @param jug1 Jugador 1
+     * @param jug2 Jugador 2
+     * @param n Cantidad de disparos limite
+     * @param i Cantidad de disparos hechos por los usuarios
+     */
     public static void verificarGanador(Jugador jug1, Jugador jug2, int n, int i) {
 
 
@@ -178,7 +183,22 @@ public class Juego {
             }
         }
     }
-
+    /**
+     * Le da la opcion al jugador de donde atacar y le dice si ha dado a un navio, isla o mar.
+     * @param jTirador Jugador quien efectua el disparo
+     * @param jEnemigo Jugador que esta siendo atacado
+     * @see mostrarTablero
+     * @see aumentarAciertos
+     * @see disminuirTamanio
+     * @see getBoard
+     * @see getTamanio
+     * @see getId
+     * @see setId
+     * @see disminuirCantBarcos
+     * @see eliminarBarco
+     * @see InterruptedException
+     * @return False o True
+     */
     public static boolean ataque(Jugador jTirador, Jugador jEnemigo){
 
         int fila = -1, columna = -1, tamanio = jTirador.deffenseBoard.getTamanio();
@@ -278,7 +298,12 @@ public class Juego {
         return false;
         
     }
-
+    /**
+     * El usuario seleccionara los barcos que va a utilizar en partida Portaaviones, Lancha, Crucero, Submarino, Buque
+     * @param cantShips Cantidad de barcos que van a usar
+     * @see InterruptedException
+     * @return Un array con los barcos a usar en la partida
+     */
     public static String[] seleccionDeBarcos(int cantShips) {
         Scanner scanner2 = new Scanner(System.in);
         String[] barcos = new String[cantShips];
@@ -319,7 +344,18 @@ public class Juego {
 
         return barcos;
     }
-
+    /**
+     * Permite que el usuario coloque todos los barcos en la posicion que elija tanto el jugador 1 como jugador 2
+     * @param barcos Array de los barcos elegidos
+     * @param tamanio tamaño del tablero
+     * @param j Jugador 1
+     * @param j2 Jugador 2
+     * @see MostrarTablero
+     * @see verificarMapa
+     * @see colocar
+     * @throws InterruptedException
+     * 
+     */
     public static void posicionarBarcos(String[] barcos,int tamanio, Jugador j, Jugador j2) throws InterruptedException {
         Posicion positionTry;
         Scanner scanner3 = new Scanner(System.in);
@@ -411,7 +447,16 @@ public class Juego {
             System.in.read();
         } catch (IOException e) {}
     }
-
+    /**
+     * Generara Islas aleatoriamente y las colocara en los tableros de jug1 y jug2
+     * @param j1 Jugador 1
+     * @param j2 Jugador 2
+     * @see getTamanio
+     * @see colocar
+     * @see Posicion
+     * @throws InterruptedException
+     * @param cantIslas Cantidad de islas a generar
+     */
     public static void generarIslas(Jugador j1, Jugador j2, int cantIslas){
 
         Random rnd = new Random(); 
