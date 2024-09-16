@@ -8,7 +8,6 @@ public class Mar extends Fichas{
         
         board[position.getFila()][position.getColumna()] = this;
         
-        
     }
 
 }

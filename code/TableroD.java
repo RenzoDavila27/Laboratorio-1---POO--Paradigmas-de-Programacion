@@ -12,7 +12,7 @@ public class TableroD extends Tablero{
             for (int j=0;j<t;j++){
                 Mar m = new Mar();
                 Posicion a = new Posicion(i, j);
-                m.colocar(this.board, a);
+                m.colocar(board, a);
             }
         }
     }
