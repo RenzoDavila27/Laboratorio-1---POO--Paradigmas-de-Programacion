@@ -26,7 +26,33 @@ public abstract class Fichas implements Colocable{
         this.tamanio--;
     }
 
-    public void colocar(Jugador p1, Posicion position, int option){
-    
+    public void colocar(Jugador j, Posicion position, int option){
+        
+        int columna = position.getColumna();
+        int fila = position.getFila();
+
+        switch (option){
+            case 1:
+                for (int i = fila; i >= fila-tamanio+1;i--){
+                    j.deffenseBoard.getBoard()[i][columna] = this;
+                }
+                break;
+            case 2:
+                for (int i = fila; i <= fila+tamanio-1;i++){
+                    j.deffenseBoard.getBoard()[i][columna] = this;
+                }
+                break;
+            case 3:
+                for (int i = columna; i <= columna+tamanio-1;i++){
+                    j.deffenseBoard.getBoard()[fila][i] = this;
+                }
+                break;
+            case 4:
+                for (int i = columna; i >= columna-tamanio+1;i--){
+                    j.deffenseBoard.getBoard()[fila][i] = this;
+                }
+                break;
+        }
+
     }
 }
