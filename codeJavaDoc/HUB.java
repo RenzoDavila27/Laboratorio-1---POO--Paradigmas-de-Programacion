@@ -5,9 +5,12 @@ import java.util.Scanner;
     *La clase HUB maneja el inicio del juego dandole 3 opciones al usuario Salir, Jugar, LeerReglas
     */
 public class HUB {
+    
+    /**
+    * Constructor que crea a HUB
+    */
 
     public HUB(){
-
     }
    
     /**
@@ -67,11 +70,12 @@ public class HUB {
         }while (option < 1 || option > 3);
         scanner.close();
     }
+
     /**
     * Muestra en pantalla las Reglas del Juego.
     */
 
-    private static void leerReglas() {
+    public static void leerReglas() {
         
         System.out.println("En este pequenio apartado, les enseniaremos como jugar correctamente:");
         System.out.println("1er paso: Ingresaran sus nombres");

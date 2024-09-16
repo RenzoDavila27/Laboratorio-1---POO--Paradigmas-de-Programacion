@@ -3,7 +3,7 @@
  */
 public class Buque extends Fichas{
     /**
-     * Constructor que crea un Buque con tamaño 4 y un identificador 'B'.
+     * Constructor que crea un Buque con tamanio 4 y un identificador 'B'.
      */
     public Buque(){
         super(4, 'B');
@@ -49,7 +49,3 @@ public class Buque extends Fichas{
 
     }
 }
-/**
- * Descripcion de metodo o clase
-
- */

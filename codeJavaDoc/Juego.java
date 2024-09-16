@@ -5,18 +5,27 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Random;
 /**
- * La clase Juego se encargara de llevar el control, es la clase main
- */
-
+* La clase Juego se encargara de llevar el control, es la clase main
+* @version 17.0.12 16/09/24
+* @author Renzo Davila, Facundo Lella
+*/
+    
 public class Juego {
     /**
-     * El main es donde ocurrira el juego donde cada jugador atac
+     * El main es donde se ira avanzando en el juego
      * @param args
      * @throws InterruptedException
      * @see Jugador
      * @see HUB
      * @see ingresarHub
-     * @thorws 
+     * @see inicializarBarcos
+     * @see posicionarBarcos
+     * @see getCantBarcos
+     * @see getAciertos
+     * @see getName
+     * @see mostrarTablero
+     * @see ataque
+     * @see verificarGanador
      */
     public static void main(String[] args) throws InterruptedException {
         int tamanio = 0, cantIntentos = 0, cantBarcos = 0, cantIslas = 0, option = 0, numTurno = 1, metodoDeJuego = 0;
@@ -145,6 +154,11 @@ public class Juego {
      * @param jug2 Jugador 2
      * @param n Cantidad de disparos limite
      * @param i Cantidad de disparos hechos por los usuarios
+     * @see Jugador
+     * @see mostrarTablero
+     * @see getAciertos
+     * @see getName
+     * @see getCantBarcos
      */
     public static void verificarGanador(Jugador jug1, Jugador jug2, int n, int i) {
 
@@ -198,6 +212,7 @@ public class Juego {
      * Le da la opcion al jugador de donde atacar y le dice si ha dado a un navio, isla o mar.
      * @param jTirador Jugador quien efectua el disparo
      * @param jEnemigo Jugador que esta siendo atacado
+     * @see Jugador
      * @see mostrarTablero
      * @see aumentarAciertos
      * @see disminuirTamanio
@@ -208,7 +223,7 @@ public class Juego {
      * @see disminuirCantBarcos
      * @see eliminarBarco
      * @see InterruptedException
-     * @return False o True
+     * @return Si le pego a un barco enemigo devuelve True y False si falla
      */
     public static boolean ataque(Jugador jTirador, Jugador jEnemigo){
 
@@ -358,7 +373,7 @@ public class Juego {
     /**
      * Permite que el usuario coloque todos los barcos en la posicion que elija tanto el jugador 1 como jugador 2
      * @param barcos Array de los barcos elegidos
-     * @param tamanio tamaño del tablero
+     * @param tamanio tamanio del tablero
      * @param j Jugador 1
      * @param j2 Jugador 2
      * @see MostrarTablero
@@ -462,6 +477,10 @@ public class Juego {
      * Generara Islas aleatoriamente y las colocara en los tableros de jug1 y jug2
      * @param j1 Jugador 1
      * @param j2 Jugador 2
+     * @see Jugador
+     * @see Isla1x2
+     * @see Isla2x2
+     * @see IslaL
      * @see getTamanio
      * @see colocar
      * @see Posicion

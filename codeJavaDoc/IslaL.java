@@ -1,10 +1,10 @@
 /**
- * Representa una isla en forma de "L" de tamaño 3x2 que extiende la clase Isla.
+ * Representa una isla en forma de "L" de tamanio 3x2 que extiende la clase Isla.
  * La isla ocupa 4 posiciones en el tablero: tres en una columna y una más a la derecha en la última fila.
  */
 public class IslaL extends Isla{
     /**
-     * Constructor que crea una IslaL, con tamaño 4.
+     * Constructor que crea una IslaL, con tamanio 4.
      */
     public IslaL(){
         super(4);

@@ -4,11 +4,11 @@
 public abstract class Fichas implements Colocable{
     
     private char identificador; // Caracter que identifica a la nave
-    private int tamanio; // Tamaño de la ficha (Barco)
+    private int tamanio; // Tamanio de la ficha (Barco)
 
     /**
      * Constructor de Fichas 
-     * @param t Tamaño de la ficha
+     * @param t Tamanio de la ficha
      * @param id Caracter que identifica al barco
      */
     public Fichas(int t, char id){
@@ -16,8 +16,8 @@ public abstract class Fichas implements Colocable{
         this.identificador =  id;
     }
     /**
-     * Obtiene el tamaño de la Ficha
-     * @return El tamaño de la ficha
+     * Obtiene el tamanio de la Ficha
+     * @return El tamanio de la ficha
      */
     public int getTamanio(){
         return this.tamanio;
@@ -37,7 +37,7 @@ public abstract class Fichas implements Colocable{
         this.identificador = x;
     }
     /**
-     * Disminuye el tamaño de la ficha en 1
+     * Disminuye el tamanio de la ficha en 1
      */
     public void disminuirTamanio(){
         this.tamanio--;

@@ -1,16 +1,16 @@
 
 /**
- * Representa una isla de tamaño 1x2 que extiende la clase Isla, que ocupa 2 posiciones en el tablero.
+ * Representa una isla de tamanio 1x2 que extiende la clase Isla, que ocupa 2 posiciones en el tablero.
  */
 public class Isla1x2 extends Isla{
     /**
-     * Constructor que crea una Isla1x2, con tamaño 2.
+     * Constructor que crea una Isla1x2, con tamanio 2.
      */
     public Isla1x2(){
         super(2);
     }
     /** 
-    * Coloca la isla de tamaño 1x2 en el tablero de defensa del jugador
+    * Coloca la isla de tamanio 1x2 en el tablero de defensa del jugador
     * comenzando en la posición dada. La isla se coloca horizontalmente en dos posiciones consecutivas.
     * 
     * @param j        El jugador al que pertenece el tablero donde se colocará la isla.

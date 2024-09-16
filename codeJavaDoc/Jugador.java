@@ -5,13 +5,13 @@ import java.util.ArrayList;
  */
 
 public class Jugador {
-    private String nombre;
-    private int cantBarcos, aciertos;
-    private ArrayList<String> barcosRestantes, barcosEliminados;
-    public TableroA attackBoard;
-    public TableroD deffenseBoard;
+    private String nombre; // Nombre del Jugador
+    private int cantBarcos, aciertos; // Cantidad de Barcos del Jugador y la cantidad de aciertos 
+    private ArrayList<String> barcosRestantes, barcosEliminados; // Barcos "vivos" del jugador y barcos "muertos"
+    public TableroA attackBoard; // Su tablero atacante
+    public TableroD deffenseBoard; // Su tablero defensor
     /**
-     * Constructor que crea Jugador, con un nombre, un tamaño de tablero, cantidad de aciertos, cantidad de barcos
+     * Constructor que crea Jugador, con un nombre, un tamanio de tablero, cantidad de aciertos, cantidad de barcos
      * , tablero atacante y defensor, sus barcos eliminados y barcos restantes.
      * @param n Nombre del Jugador
      * @param t Tamaño del Tablero

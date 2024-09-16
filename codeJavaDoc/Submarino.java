@@ -1,8 +1,23 @@
+/**
+ * La clase Portaaviones representa un barco de tipo crucero que extiende la clase Fichas.
+ */
 public class Submarino extends Fichas{
-    
+    /**
+     *  Constructor que crea un Submarino con tamanio 3 y un identificador 'S'
+     */
+     
     public Submarino(){
         super(3, 'S');
     }
+     /**
+     *Coloca el Submarino en el tablero de defensa del jugador en la posición dada y en una dirección específica, según la opción seleccionada.
+     * @param j El jugador al que pertenece el tablero donde se colocará el Submarino.
+     * @param position La posición inicial donde se quiere colocar el Submarino.
+     * @param option La dirección en la que se colocará el Submarino:
+     * @see getColumna
+     * @see getFila
+     * @see getBoard
+     */
 
     public void colocar(Jugador j, Posicion position, int option){
         

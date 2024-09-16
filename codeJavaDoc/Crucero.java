@@ -6,7 +6,7 @@ public class Crucero extends Fichas{
     
     
     /**
-     *Constructor que crea un Crucero con tamaño 2 y un identificador 'C'
+     *Constructor que crea un Crucero con tamanio 2 y un identificador 'C'
      */
     public Crucero(){
         super(2, 'C');
@@ -19,7 +19,6 @@ public class Crucero extends Fichas{
      * @see getColumna
      * @see getFila
      * @see getBoard
-     * @see 
      */
     public void colocar(Jugador j, Posicion position, int option){
         
